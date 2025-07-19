@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>My Bookings</title>
+</head>
+<body>
+    <div>
+        <h1>Welcome, {{ user.username }}!</h1>
+        <div>
+            <a href="{% url 'booking_page' %}">Create New Booking</a>
+            <form action="{% url 'logout' %}" method="post">
+                {% csrf_token %}
+                <button type="submit">Logout</button>
+            </form>
+        </div>
+
+        <h2>Your Bookings</h2>
+
+        {% if bookings %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Booking Date</th>
+                        <th>Booking Time</th>
+                        <th>Created On</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for booking in bookings %}
+                    <tr>
+                        <td>{{ booking.booking_datetime|date:"F d, Y" }}</td>
+                        <td>{{ booking.booking_datetime|time:"H:i A" }}</td>
+                        <td>{{ booking.created_at|date:"F d, Y" }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>You have no bookings yet. Why not create one?</p>
+        {% endif %}
+    </div>
+</body>
+</html>
